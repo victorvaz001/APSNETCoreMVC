@@ -1,0 +1,57 @@
+﻿@model X.PagedList.IPagedList<Site01.Models.Palavra>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+@{
+    //Layout = "_Layout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Palavra - Listagem";
+}
+
+
+@if (@TempData["Mensagem"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Mensagem"]
+    </div>
+}
+
+<link href="/css/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+<a href="/palavra/cadastrar" class="btn btn-primary">Cadastrar</a>
+
+<span><b>Total de registros:</b>  @Model.TotalItemCount</span>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Palavra</th>
+            <th scope="col">Nível</th>
+            <th scope="col">Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var palavara in Model)
+        {
+
+            <tr>
+                <th scope="row">@palavara.Id</th>
+                <td>@palavara.Nome</td>
+                <td>@palavara.Nivel</td>
+                <td>
+                    <a href="/palavra/atualizar/@palavara.Id" class="btn">Editar </a>
+                    <a href="/palavra/excluir/@palavara.Id" class="btn">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+
